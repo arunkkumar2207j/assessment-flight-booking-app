@@ -1,25 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import SearchWidget from './components/SearchWidget';
+import SearchResultWidget from './components/SearchResultWidget';
+import SearchPriceRangeWidget from './components/SearchPriceRangeWidget';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <nav className="navbar navbar-dark bg-dark">
+        <p className="navbar-brand">Flight Search Engine</p>
+      </nav>
+      <div className="container">
+        <div className="row">
+          <div className="col-6 col-md-3">
+            <SearchWidget />
+            <SearchPriceRangeWidget />
+          </div>
+          <div className="col-12 col-md-9">
+            <SearchResultWidget />
+          </div>
+        </div>
+      </div>
+    </React.Fragment>
   );
 }
 

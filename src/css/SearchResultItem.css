@@ -1,0 +1,38 @@
+.search-result-item {
+    border: 1px solid rgba(0,0,0,0.25);
+    margin: 15px 0;
+}
+.search-result-item > [class*='col-'] {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.search-result-item [class~='flight-']{
+    font-size: 1.2rem;
+}
+.flight-price {
+    font-size: 1.6rem;
+}
+.flight-name {
+    font-size: 0.9rem;
+}
+.flight-route {
+    
+}
+.flight-departure-time {
+
+}
+.flight-arrival-time {
+
+}
+.image-placeholder {
+    text-align: center;
+    width: 100%;
+    height: 100px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 5px;
+    background: rgba(0,0,0,0.2);
+}
+.search-result-item .btn {
+    width: 100%;
+    margin-top: 10px;
+}

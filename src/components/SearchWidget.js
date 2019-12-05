@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchFlightDetails } from '../reducer/flightDataLoadingActions'
+import { fetchFlightDetails, fetchUpdatedFlightDetails } from '../reducer/flightDataLoadingActions'
 import '../css/SearchWidget.css';
 
 class SearchWidget extends Component {
     constructor() {
         super()
-        this.originCity = React.createRef();
-        this.destinationCity = React.createRef();
-        this.departureTime = React.createRef();
+        this.source = React.createRef();
+        this.destination = React.createRef();
+        this.departs_at = React.createRef();
         this.passengers = React.createRef();
+        this.fare = React.createRef();
     }
     fetchData = () => {
-        const filter = {
-            originCity: this.originCity.current.value,
-            destinationCity: this.destinationCity.current.value,
-            departureTime: this.departureTime.current.value,
-            passengers: this.passengers.current.value
-        }
-        console.log('filter: ', filter);
         this.props.fetchData()
+    }
+    fetchUpdatedData = () => {
+        const filter = {
+            source: this.source.current.value,
+            destination: this.destination.current.value,
+            departs_at: this.departs_at.current.value,
+            passengers: this.passengers.current.value,
+            fare: this.fare.current.value
+        }
+        this.props.fetchUpdatedData(filter)
     }
     distinct = (value, index, self) => {
         return self.indexOf(value) === index;
@@ -41,9 +45,9 @@ class SearchWidget extends Component {
                 <ul className="nav nav-tabs search-widget">
                     <li className="active tab">One Way</li>
                     <li className="dropdown">
-                        <input type="text" ref={this.originCity} name="originCity" className="form-control form-control-sm" placeholder="Enter Origin City" />
-                        <input type="text" ref={this.destinationCity} className="form-control form-control-sm" placeholder="Enter Destination City" />
-                        <select ref={this.departureTime} className="form-control form-control-sm">
+                        <input type="text" ref={this.source} name="originCity" className="form-control form-control-sm" placeholder="Enter Origin City" />
+                        <input type="text" ref={this.destination} className="form-control form-control-sm" placeholder="Enter Destination City" />
+                        <select ref={this.departs_at} className="form-control form-control-sm">
                             { destTimeList }
                         </select>
                         <select ref={this.passengers} className="form-control form-control-sm">
@@ -53,9 +57,14 @@ class SearchWidget extends Component {
                             <option>4</option>
                             <option>5</option>
                         </select>
-                        <button className="btn btn-primary btn-sm" onClick={this.fetchData}>Search</button>
+                        <button className="btn btn-primary btn-sm" onClick={this.fetchUpdatedData}>Search</button>
                     </li>
                 </ul>
+
+                <div className="search-price-range">
+                    <h1 className="block-title">Refine Flight Search</h1>
+                    <input ref={this.fare} type="range" step="500" min="6500" max="15000" onChange={this.fetchUpdatedData} />
+                </div>
                 
             </React.Fragment>
         )
@@ -68,9 +77,10 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, filter) => {
     return {
-        fetchData: () => dispatch(fetchFlightDetails())
+        fetchData: () => dispatch(fetchFlightDetails()),
+        fetchUpdatedData: (filter) => dispatch(fetchUpdatedFlightDetails(filter))
     }
 }
 

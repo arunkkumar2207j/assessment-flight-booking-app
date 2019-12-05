@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import SearchWidget from './components/SearchWidget';
 import SearchResultWidget from './components/SearchResultWidget';
-import SearchPriceRangeWidget from './components/SearchPriceRangeWidget';
 
 function App() {
   return (
@@ -14,7 +13,6 @@ function App() {
         <div className="row">
           <div className="col-6 col-md-3">
             <SearchWidget />
-            <SearchPriceRangeWidget />
           </div>
           <div className="col-12 col-md-9">
             <SearchResultWidget />

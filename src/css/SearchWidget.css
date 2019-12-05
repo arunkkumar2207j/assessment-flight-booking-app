@@ -29,3 +29,15 @@
 .search-widget .dropdown > select{
     margin-bottom: 10px;
 }
+
+.search-price-range {
+    padding: 10px;
+    border: 1px solid rgba(0,0,0,0.35);
+    border-radius: 5px;
+}
+.search-price-range > input {
+    width: 100%;
+}
+.block-title {
+    font-size: 1rem;;
+}

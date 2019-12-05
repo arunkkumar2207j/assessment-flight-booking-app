@@ -11,10 +11,30 @@ export function fetchFlightDetails() {
         dispatch(fetchFlightDetailsBegin());
         return getFlightDetails()
             .then(json => {
-                // Filtered data comes here
-                // console.log('json: ', json)
                 dispatch(fetchFlightDetailsSuccess(json));
                 return json;
+            })
+            .catch(error => {
+                dispatch(fetchFlightDetailsError(error));
+            })
+    }
+}
+
+export function fetchUpdatedFlightDetails(filter) {
+    return dispatch => {
+        dispatch(fetchFlightDetailsBegin());
+        return getFlightDetails()
+            .then(json => {
+                console.log('filter-inside-Action: ', filter);
+                console.log('fetched-json: ', json)
+                let updatedJSON = json.filter((item, i) => {
+                    if(item.source === filter.source && item.destination === filter.destination ) {
+                        return item;
+                    }
+                })
+                console.log('updatedJSON: ', updatedJSON);
+                dispatch(fetchFlightDetailsSuccess(updatedJSON));
+                return updatedJSON;
             })
             .catch(error => {
                 dispatch(fetchFlightDetailsError(error));

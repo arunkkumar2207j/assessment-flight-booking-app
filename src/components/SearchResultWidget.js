@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import SearchResultList from './SearchResultList'
 import { fetchFlightDetails } from '../reducer/flightDataLoadingActions'
 
-class SearchResultWidget extends Component {
+class SearchResultWidget extends React.PureComponent {
     componentDidMount() {
         this.props.dispatch(fetchFlightDetails())
     }

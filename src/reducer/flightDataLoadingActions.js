@@ -28,13 +28,14 @@ export function fetchUpdatedFlightDetails(filter) {
                 console.log('filter-inside-Action: ', filter);
                 console.log('fetched-json: ', json)
                 let updatedJSON = json.filter((item, i) => {
-                    if(item.source === filter.source && item.destination === filter.destination ) {
+                    if(item.source === filter.source ) {
                         return item;
                     }
+                    // return item;
                 })
                 console.log('updatedJSON: ', updatedJSON);
                 dispatch(fetchFlightDetailsSuccess(updatedJSON));
-                return updatedJSON;
+                // return updatedJSON;
             })
             .catch(error => {
                 dispatch(fetchFlightDetailsError(error));

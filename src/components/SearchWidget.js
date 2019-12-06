@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { fetchFlightDetails, fetchUpdatedFlightDetails } from '../reducer/flightDataLoadingActions'
+import { fetchUpdatedFlightDetails } from '../reducer/flightDataLoadingActions'
 import '../css/SearchWidget.css';
 
-class SearchWidget extends Component {
+class SearchWidget extends React.PureComponent {
     constructor() {
         super()
         this.source = React.createRef();
@@ -11,9 +11,6 @@ class SearchWidget extends Component {
         this.departs_at = React.createRef();
         this.passengers = React.createRef();
         this.fare = React.createRef();
-    }
-    fetchData = () => {
-        this.props.fetchData()
     }
     fetchUpdatedData = () => {
         const filter = {
@@ -77,9 +74,8 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = (dispatch, filter) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        fetchData: () => dispatch(fetchFlightDetails()),
         fetchUpdatedData: (filter) => dispatch(fetchUpdatedFlightDetails(filter))
     }
 }

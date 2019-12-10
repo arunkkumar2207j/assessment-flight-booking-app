@@ -22,6 +22,16 @@ class SearchWidget extends React.PureComponent {
         }
         this.props.fetchUpdatedData(filter)
     }
+    setFilters = () => {
+        const filter = {
+            source: this.source.current.value,
+            destination: this.destination.current.value,
+            departs_at: this.departs_at.current.value,
+            passengers: this.passengers.current.value,
+            fare: this.fare.current.value
+        }
+        this.props.filters(filter);
+    }
     distinct = (value, index, self) => {
         return self.indexOf(value) === index;
     }
@@ -54,13 +64,14 @@ class SearchWidget extends React.PureComponent {
                             <option>4</option>
                             <option>5</option>
                         </select>
-                        <button className="btn btn-primary btn-sm" onClick={this.fetchUpdatedData}>Search</button>
+                        {/* <button className="btn btn-primary btn-sm" onClick={this.fetchUpdatedData}>Search</button> */}
+                        <button className="btn btn-primary btn-sm" onClick={this.setFilters}>Search</button>
                     </li>
                 </ul>
 
                 <div className="search-price-range">
                     <h1 className="block-title">Refine Flight Search</h1>
-                    <input ref={this.fare} type="range" step="500" min="6500" max="15000" onChange={this.fetchUpdatedData} />
+                    <input ref={this.fare} type="range" step="500" min="6500" max="15000" onChange={this.setFilters} />
                 </div>
                 
             </React.Fragment>

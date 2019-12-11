@@ -1,5 +1,6 @@
+
 function getFlightDetails() {
-    return fetch('/data/flights.json')
+    return fetch('./data/flights.json')
         .then(handleErrors)
         .then(res => {
             return res.json();
@@ -18,33 +19,6 @@ export function fetchFlightDetails() {
                 dispatch(fetchFlightDetailsError(error));
             })
     }
-}
-
-export function fetchUpdatedFlightDetails(filter) {
-    return dispatch => {
-        dispatch(fetchFlightDetailsBegin());
-        return getFlightDetails()
-            .then(json => {
-                console.log('filter-inside-Action: ', filter);
-                console.log('fetched-json: ', json)
-                let updatedJSON = json.filter((item, i) => {
-                    if(item.source === filter.source ) {
-                        return item;
-                    }
-                    // return item;
-                })
-                console.log('updatedJSON: ', updatedJSON);
-                dispatch(fetchFlightDetailsSuccess(updatedJSON));
-                // return updatedJSON;
-            })
-            .catch(error => {
-                dispatch(fetchFlightDetailsError(error));
-            })
-    }
-}
-
-export function fetchFlightDetailsFor(source, destination, departure_date) {
-    return null
 }
 
 function handleErrors(response) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchUpdatedFlightDetails } from '../reducer/flightDataLoadingActions'
+import { fetchFlightDetails } from '../reducer/flightDataLoadingActions'
 import '../css/SearchWidget.css';
 
 class SearchWidget extends React.PureComponent {
@@ -11,16 +11,9 @@ class SearchWidget extends React.PureComponent {
         this.departs_at = React.createRef();
         this.passengers = React.createRef();
         this.fare = React.createRef();
-    }
-    fetchUpdatedData = () => {
-        const filter = {
-            source: this.source.current.value,
-            destination: this.destination.current.value,
-            departs_at: this.departs_at.current.value,
-            passengers: this.passengers.current.value,
-            fare: this.fare.current.value
+        this.state = {
+            price: "6500"
         }
-        this.props.fetchUpdatedData(filter)
     }
     setFilters = () => {
         const filter = {
@@ -28,9 +21,13 @@ class SearchWidget extends React.PureComponent {
             destination: this.destination.current.value,
             departs_at: this.departs_at.current.value,
             passengers: this.passengers.current.value,
-            fare: this.fare.current.value
+            fare: this.fare.current.value !== undefined ? this.fare.current.value : 6500
         }
         this.props.filters(filter);
+        this.setState(() => {
+            return {price: this.fare.current.value}
+        })
+
     }
     distinct = (value, index, self) => {
         return self.indexOf(value) === index;
@@ -41,8 +38,16 @@ class SearchWidget extends React.PureComponent {
             return item.departs_at;
         })
         const distinctDepartureTime = distinctDepartureTimeList.filter(this.distinct);
-        // console.log('distinctDepartureTime: ', distinctDepartureTime);
-        // 
+        
+        let sortedDestTimeList = distinctDepartureTime.length > 0 
+            && distinctDepartureTime.map((item, i) => {
+                return item
+            }).sort(function (a, b) {
+                return new Date('1970/01/01 ' + a) - new Date('1970/01/01 ' + b);
+              });
+
+        console.log("destTimeList1: ", new Array(sortedDestTimeList));
+      
         let destTimeList = distinctDepartureTime.length > 0 
             && distinctDepartureTime.map((item, i) => {
                 return <option key={i}>{item}</option>
@@ -64,13 +69,13 @@ class SearchWidget extends React.PureComponent {
                             <option>4</option>
                             <option>5</option>
                         </select>
-                        {/* <button className="btn btn-primary btn-sm" onClick={this.fetchUpdatedData}>Search</button> */}
                         <button className="btn btn-primary btn-sm" onClick={this.setFilters}>Search</button>
                     </li>
                 </ul>
 
                 <div className="search-price-range">
                     <h1 className="block-title">Refine Flight Search</h1>
+        <p>Price: Rs. {this.state.price}</p>
                     <input ref={this.fare} type="range" step="500" min="6500" max="15000" onChange={this.setFilters} />
                 </div>
                 
@@ -87,7 +92,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchUpdatedData: (filter) => dispatch(fetchUpdatedFlightDetails(filter))
+        fetchUpdatedData: () => dispatch(fetchFlightDetails())
     }
 }
 

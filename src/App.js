@@ -7,7 +7,13 @@ class App extends React.PureComponent {
   constructor() {
     super();
     this.state = {
-      filters: {}
+      filters: {
+        source: "",
+        destination: "",
+        departs_at: "10:00 AM", 
+        passengers: "1", 
+        fare: "6500"
+      }
     }
   }
   getFilters = (filters) => {

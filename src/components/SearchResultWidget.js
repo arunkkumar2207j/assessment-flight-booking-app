@@ -11,15 +11,10 @@ class SearchResultWidget extends React.PureComponent {
         }
     }
     componentDidMount() {
-        this.props.dispatch(fetchFlightDetails())
-        this.setState({resultItems: this.props.items})
+        this.props.dispatch(fetchFlightDetails());
     }
     render() {
         const { loading, error, items, filters } = this.props;
-
-        console.log('this.state.resultItems: ', this.state.resultItems)
-
-        console.log('filters inside Result: ', filters);
 
         if(error) {
             return <div>Error! {error.message}</div>
@@ -29,9 +24,26 @@ class SearchResultWidget extends React.PureComponent {
             return <div>Loading...</div>
         }
         
-        return (
-            <SearchResultList data={items} />
-        )
+        if(items) {
+            let updatedItems = items.filter((item) => {
+                return item.source.includes(filters.source || '');
+            }).filter((item) => {
+                return item.destination.includes(filters.destination || '');
+            }).filter((item) => {
+                return item.departs_at.includes(filters.departs_at || '');
+            }).filter((item) => {
+                let ulteredFateString = 'Rs ' + filters.fare
+                return item.fare.includes(ulteredFateString || '');
+            })
+            
+            if(updatedItems.length) {
+                return <SearchResultList data={updatedItems} filters={filters} />
+            } else if(updatedItems.length === 0) {
+                return <h3>Selected search flight details</h3>
+            }
+            
+        }
+
     }
 }
 
